@@ -1,0 +1,38 @@
+version: "3.3"
+services:
+  db:
+    image: mariadb:latest
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: wp
+      MYSQL_USER: wp
+      MYSQL_PASSWORD: password
+    expose:
+      - 3306
+      - 33060
+  wordpress:
+    depends_on:
+      - db
+    build: ./wordpress/
+    user: ":1024"
+    volumes:
+      - ./html:/var/www/html
+      - ./data/logs:/var/www/logs
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wp
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_NAME: wp
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_TABLE_PREFIX: dwp_
+      WORDPRESS_CONFIG_EXTRA: |
+        /* debugging */
+        define( 'WP_DEBUG_LOG', '/var/www/logs/wp-debug.log' );
+        define( 'WP_MEMORY_LIMIT', '64M' );
+        define( 'WP_MAX_MEMORY_LIMIT', '128M' );

@@ -4,6 +4,7 @@ services:
     image: mariadb:latest
     ports:
       - "3306:3306"
+      - "33060:33060"
     volumes:
       - ./data/db:/var/lib/mysql
     environment:
@@ -36,3 +37,4 @@ services:
         define( 'WP_DEBUG_LOG', '/var/www/logs/wp-debug.log' );
         define( 'WP_MEMORY_LIMIT', '64M' );
         define( 'WP_MAX_MEMORY_LIMIT', '128M' );
+

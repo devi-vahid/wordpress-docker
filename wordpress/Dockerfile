@@ -7,6 +7,9 @@ RUN pecl install xdebug-3.1.5 > /dev/null 2>&1
 
 COPY custom.ini $PHP_INI_DIR/conf.d/
 
-RUN addgroup --gid 1024 wordpress \
-    && adduser --disabled-password --gecos "" --force-badname --gid 1024 wordpress
+RUN addgroup --gid 1000 wordpress \
+    && adduser --disabled-password --gecos "" --force-badname --uid 1000 --gid 1000 wordpress \
+    && chmod -R 755 /var/www/html/ \
+    && chown -R wordpress:wordpress /var/www/html/
 USER wordpress
+

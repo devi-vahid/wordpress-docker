@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.8"
 services:
   db:
     image: mariadb:latest
@@ -6,7 +6,7 @@ services:
       - "3306:3306"
       - "33060:33060"
     volumes:
-      - ./data/db:/var/lib/mysql
+      - ./data/db:/var/lib/mysql:rw
     environment:
       MARIADB_ROOT_PASSWORD: 'password'
       MARIADB_DATABASE: 'wp'
@@ -16,11 +16,11 @@ services:
   wordpress:
     depends_on:
       - db
-    build: ./wordpress/
-    user: ":1024"
+    build:
+      context: ./wordpress/
     volumes:
-      - ./html:/var/www/html
-      - ./data/logs:/var/www/logs
+      - ./html:/var/www/html:rw
+      - ./data/logs:/var/www/logs:rw
     ports:
       - "8080:80"
     environment:
@@ -35,4 +35,5 @@ services:
         define( 'WP_DEBUG_LOG', '/var/www/logs/wp-debug.log' );
         define( 'WP_MEMORY_LIMIT', '64M' );
         define( 'WP_MAX_MEMORY_LIMIT', '128M' );
+
 

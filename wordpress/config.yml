@@ -1,0 +1,28 @@
+# Global parameter defaults
+path: '/var/www/html'
+url: 'http://localhost:8080'
+user: admin
+color: true
+
+config create:
+  dbname: wp
+  dbhost: db
+  dbprefix: dwp_
+  dbuser: wp
+  dbpass: password
+  extra-php: |
+    define( 'WP_DEBUG_LOG', '/var/www/logs/wp-debug.log' );
+    define( 'WP_MEMORY_LIMIT', '64M' );
+    define( 'WP_MAX_MEMORY_LIMIT', '128M' );
+    define( 'WP_HOME', 'http://localhost:8080' );
+    define( 'WP_SITEURL', 'http://localhost:8080' );
+core install:
+  title: 'start using wordpress'
+  admin_user: admin
+  admin_password: password
+  admin_email: sample@adminmail.com
+  locale: en_US
+  skip-email: true
+core download:
+  locale: en_US
+  skip-content: true

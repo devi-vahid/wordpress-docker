@@ -1,15 +1,20 @@
 FROM wordpress:latest
 
 COPY wp /usr/local/bin/wp
-RUN chmod +x /usr/local/bin/wp
+COPY custom.ini $PHP_INI_DIR/conf.d/
+COPY config.yml /var/www/config.yml
 
 RUN pecl install xdebug-3.1.5 > /dev/null 2>&1
 
-COPY custom.ini $PHP_INI_DIR/conf.d/
+ENV WP_CLI_CONFIG_PATH='/var/www/config.yml'
 
 RUN addgroup --gid 1000 wordpress \
     && adduser --disabled-password --gecos "" --force-badname --uid 1000 --gid 1000 wordpress \
-    && chmod -R 755 /var/www/html/ \
-    && chown -R wordpress:wordpress /var/www/html/
+    && mkdir -p /var/www/logs/ \
+    && touch /var/www/logs/xdebug.log \
+    && touch /var/www/logs/wp-debug.log \
+    && chmod -R 755 /var/www/ /usr/local/bin/wp \
+    && chown -R wordpress:wordpress /var/www/
+
 USER wordpress
 

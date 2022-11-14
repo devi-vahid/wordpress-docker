@@ -1,10 +1,7 @@
 FROM wordpress:latest
 
-COPY wp /usr/local/bin/wp
 COPY custom.ini $PHP_INI_DIR/conf.d/
 COPY config.yml /var/www/config.yml
-
-RUN pecl install xdebug-3.1.5 > /dev/null 2>&1
 
 ENV WP_CLI_CONFIG_PATH='/var/www/config.yml'
 
@@ -17,10 +14,16 @@ RUN addgroup --gid 1000 wordpress \
     && touch /var/www/logs/xdebug.log \
     && touch /var/www/logs/wp-debug.log \
     && echo  "done. " \
+    && echo  "Installing xdebug-3.1.5: " \
+    && pecl  install xdebug-3.1.5 > /dev/null 2>&1 \
+    && echo  "Done " \
+    && echo  "installing WP-CLI: " \
+    && curl  -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar > /dev/null 2>&1 \ 
+    && mv    wp-cli.phar /usr/local/bin/wp \
+    && echo  "Done. " \
     && echo  "Fixing permissions: " \
     && chmod -R 777 /var/www/ /usr/local/bin/wp \
     && chown -R wordpress:wordpress /var/www/ \
-    && echo  "done. "
+    && echo  "done. " 
 
 USER wordpress
-

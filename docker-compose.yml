@@ -2,29 +2,27 @@ version: "3.8"
 services:
   db:
     image: mariadb:latest
-    container_name: db
     ports:
-      - "3306:3306"
-      - "33060:33060"
+      - 3306:3306
+      - 33060:33060
     volumes:
       - ./data/db:/var/lib/mysql:rw
     environment:
-      MARIADB_ROOT_PASSWORD: 'password'
-      MARIADB_DATABASE: 'wp'
-      MARIADB_USER: 'wp'
-      MARIADB_PASSWORD: 'password'
-      MARIADB_AUTO_UPGRADE: 'yes'
+      MARIADB_ROOT_PASSWORD: password
+      MARIADB_DATABASE: wp
+      MARIADB_USER: wp
+      MARIADB_PASSWORD: password
+      MARIADB_AUTO_UPGRADE: 1
   wordpress:
     depends_on:
       - db
     build:
       context: ./wordpress/
-    container_name: wordpress
     volumes:
       - ./html:/var/www/html:rw
       - ./data/logs:/var/www/logs:rw
     ports:
-      - "8080:80"
+      - 8080:80
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: wp
@@ -39,5 +37,18 @@ services:
         define( 'WP_MAX_MEMORY_LIMIT', '128M' );
         define( 'WP_HOME', 'http://localhost:8080' );
         define( 'WP_SITEURL', 'http://localhost:8080' );
-
-
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - 8081:80
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: wp
+      PMA_PASSWORD: password
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025

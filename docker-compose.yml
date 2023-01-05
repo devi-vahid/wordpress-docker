@@ -3,8 +3,8 @@ services:
   db:
     image: mariadb:latest
     ports:
-      - 3306:3306
-      - 33060:33060
+      - "3306:3306"
+      - "33060:33060"
     volumes:
       - ./data/db:/var/lib/mysql:rw
     environment:
@@ -22,7 +22,9 @@ services:
       - ./html:/var/www/html:rw
       - ./data/logs:/var/www/logs:rw
     ports:
-      - 8080:80
+      - "8080:80"
+    expose:
+      - "80"
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: wp
@@ -40,7 +42,7 @@ services:
   phpmyadmin:
     image: phpmyadmin:latest
     ports:
-      - 8081:80
+      - "8081:80"
     environment:
       PMA_ARBITRARY: 1
       PMA_HOST: db
@@ -50,5 +52,17 @@ services:
   mailhog:
     image: mailhog/mailhog
     ports:
-      - 1025:1025
-      - 8025:8025
+      - "1025:1025"
+      - "8025:8025"
+  node:
+    image: node:alpine
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+        - NODE_ENV=production
+    volumes:
+      - ./html:/home/node/app
+    ports:
+      - "8082:8082"
+      - "8083:8083"
+    command: "tail -f /dev/null"

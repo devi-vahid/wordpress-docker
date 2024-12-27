@@ -2,3 +2,5 @@
 /.vscode/
 /.history/
 .DS_Store
+/html/
+!/html/.gitignore

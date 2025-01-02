@@ -6,6 +6,7 @@ services:
       - "33060:33060"
     volumes:
       - ./data/db:/var/lib/mysql:rw
+      - ./html:/var/www/html:rw
     environment:
       MARIADB_ROOT_PASSWORD: password
       MARIADB_DATABASE: wp

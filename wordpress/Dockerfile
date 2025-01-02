@@ -14,11 +14,11 @@ RUN addgroup --gid 1000 wordpress \
     && touch /var/www/logs/xdebug.log \
     && touch /var/www/logs/wp-debug.log \
     && echo  "done. " \
-    && echo  "Installing xdebug-3.1.5: " \
-    && pecl  install xdebug-3.1.5 > /dev/null 2>&1 \
+    && echo  "Installing xdebug-3.4.0: " \
+    && pecl  install xdebug-3.4.0 > /dev/null 2>&1 \
     && echo  "Done " \
     && echo  "installing WP-CLI: " \
-    && curl  -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar > /dev/null 2>&1 \ 
+    && curl  -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar > /dev/null 2>&1 \
     && mv    wp-cli.phar /usr/local/bin/wp \
     && echo  "Done. " \
     && echo  "Fixing permissions: " \

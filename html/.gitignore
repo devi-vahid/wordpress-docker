@@ -1,4 +1,10 @@
 /.idea/
 /.vscode/
 /.history/
+/wp-content/uploads
+/wp-content/cache
+/wp-content/w3tc-config
+/wp-content/languages
+/wp-content/smush-webp
+/wp-content/upgrade-temp-backup
 .DS_Store
